@@ -27,6 +27,8 @@ const KINDS = {
     lcd: (p) => [p.title, p.year || projectSection(p)],
     show(p, n) {
       field('title').textContent = p.title;
+      field('year').textContent = p.year || '';
+      field('year').parentElement.hidden = !p.year; // a few projects have no year
       field('short').textContent = p.short || p.blurb;
       field('swatch').style.background = wireColor(p, n);
       field('link').href = projectUrl(p);
@@ -77,12 +79,19 @@ let pileX = 0;    // where the pile lands, kept clear of the counter
 
 // ---------- Cards ----------
 
+// Mid-roll the card is pulled by its middle, so its sides curl up after it.
+// The bend is drawn by vertical strips, each a slice of the face; --s is a
+// strip's centre, from -0.5 (left edge) to 0.5 (right edge).
+const STRIP_N = 10;
+const STRIPS = Array.from({ length: STRIP_N }, (_, s) => ((s + 0.5) / STRIP_N - 0.5).toFixed(3));
+
 stream.innerHTML = DECKS.map((d, j) => d.ids.map((n, i) => {
   const { kind: k } = d;
   const x = k.items[n];
   return `
   <a class="card" href="${k.url(x)}" data-deck="${j}" data-i="${i}" style="--c:${k.color(x, n)}" aria-label="${pad(i + 1)} — ${esc(k.name(x))}" draggable="false">
     ${k.face(x)}
+    <span class="bend" aria-hidden="true">${STRIPS.map((s) => `<span class="bend__s" style="--s:${s}">${k.face(x)}</span>`).join('')}</span>
   </a>`;
 }).join('')).join('');
 DECKS.forEach((d, j) => {
@@ -105,7 +114,8 @@ const portrait = document.querySelector('.portrait');
 stream.append(portrait);
 
 // Doodles around the portrait: each opens its own popup; outside click or Esc closes it.
-const doodles = [...portrait.querySelectorAll('.doodle')];
+// (The travel doodle opens the globe instead; see travel.js.)
+const doodles = [...portrait.querySelectorAll('.doodle[aria-controls]')];
 const closePops = () => doodles.forEach((d) => {
   d.setAttribute('aria-expanded', 'false');
   document.getElementById(d.getAttribute('aria-controls')).hidden = true;
@@ -147,9 +157,13 @@ function measure() {
   const free = beside ? b.left - s.left : s.width;
   // Phones show one big card; the stacks mostly fade off the band's edges.
   const phone = matchMedia('(max-width: 640px)').matches;
-  w = Math.round(Math.max(150, Math.min(free * (phone ? 0.64 : 0.72), s.height * (phone ? 0.62 : 0.42), 440)));
+  // The card sits in the middle of the window (behind the copy if need be),
+  // but never reaches under the board.
+  const mid = innerWidth / 2;
+  const room = beside ? 2 * (b.left - mid - 24) : Infinity;
+  w = Math.round(Math.max(150, Math.min(free * (phone ? 0.64 : 0.72), room, s.height * (phone ? 0.62 : 0.42), 440)));
   stream.style.setProperty('--cw', `${w}px`);
-  ax = free / 2;
+  ax = beside ? mid - s.left : s.width / 2;
   ay = s.height / 2;
   pileX = -0.4 * w;
   portrait.style.setProperty('--pw', `${Math.round(w * 0.62)}px`);
@@ -170,6 +184,10 @@ function place(el, d) {
   const z = up ? -0.35 * r : 0.03 * r;
   el.style.transform = `translate3d(${ax + x}px, ${ay + y * w}px, 0) perspective(${w * 5}px)
     translateZ(${z * w}px) rotate3d(1, 1, 0, ${-34 * e}deg) rotate(${2 * e}deg)`;
+  // Flat in the stacks and at the centre, most curled halfway between.
+  const bend = reducedMotion ? 0 : Math.sin(Math.PI * e) * 0.9;
+  el.style.setProperty('--bend', bend.toFixed(3));
+  el.classList.toggle('is-bent', bend > 0.01);
   // The stack fades into the distance; the pile just slides off the bottom.
   el.style.opacity = !up || a < 2.4 ? 1 : Math.max(0, (4 - a) / 1.6);
   // Waiting cards pass behind the copy and the board; played ones land in front.
@@ -291,7 +309,7 @@ Board.onPick = (key) => {
 
 // ---------- Input ----------
 
-const canScrub = () => tab in KINDS &&!document.body.classList.contains('is-intro') && !document.querySelector('.contact[open]');
+const canScrub = () => tab in KINDS &&!document.body.classList.contains('is-intro') && !document.querySelector('dialog[open]');
 let snap = 0;
 
 addEventListener('wheel', (e) => {

@@ -152,6 +152,7 @@
         <dl class="pane" data-pane="projects" aria-live="polite">
           <div class="fact fact--a"><dt>Project</dt><dd><i class="swatch" data-f="swatch"></i><span data-f="title"></span></dd></div>
           <div class="pane__b">
+            <div class="fact"><dt>Year</dt><dd data-f="year"></dd></div>
             <div class="fact"><dt>About</dt><dd data-f="short"></dd></div>
             <div class="fact"><dt><span class="sr">Link</span></dt><dd><a class="go" data-f="link" href="#">Open project &rarr;</a></dd></div>
           </div>
@@ -218,7 +219,7 @@
           <svg viewBox="0 0 64 64" aria-hidden="true"><g transform="rotate(-35 32 32)"><ellipse cx="32" cy="20" rx="13" ry="16"/><path class="doodle__fine" d="M26 5.8V34.2M32 4V36M38 5.8V34.2M20.7 12H43.3M19 20H45M20.7 28H43.3"/><path d="M29 35.5L32 42L35 35.5M32 42V50"/><rect x="29.5" y="50" width="5" height="11" rx="2"/></g><circle cx="51" cy="17" r="3"/><path d="M48.6 15.2L44 5M53.4 15.6L58 6M51 14V3.5M44 5Q51 1.5 58 6"/></svg>
           <span class="doodle__cap" aria-hidden="true">Badminton, golf, hoops</span>
         </button>
-        <button type="button" class="doodle doodle--travel" aria-expanded="false" aria-controls="pop-travel" aria-label="Travel">
+        <button type="button" class="doodle doodle--travel" data-travel aria-haspopup="dialog" aria-label="Travel — open the globe">
           <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="28" r="17"/><ellipse cx="32" cy="28" rx="7.5" ry="17"/><path d="M15 28H49M17.5 19Q32 23.5 46.5 19M17.5 37Q32 32.5 46.5 37"/><path d="M10 28A22 22 0 0 0 32 50V57M23 58H41"/></svg>
           <span class="doodle__cap" aria-hidden="true">27 places · 8 countries</span>
         </button>
@@ -230,17 +231,6 @@
           <p class="pop__k">Sports</p>
           <p>Golf, badminton, basketball<br>Volleyball, soccer</p>
           <small>Bronze Medallion swimming</small>
-        </div>
-        <div class="pop" id="pop-travel" role="dialog" aria-label="Travel" hidden>
-          <p class="pop__k">Travel</p>
-          <p>Road trips, RV trips, vacations<small>27 places in 8 countries and regions</small></p>
-          <dl>
-            <dt>Canada</dt><dd>Victoria, Calgary, Banff, Toronto, Montreal, Quebec City</dd>
-            <dt>United States</dt><dd>Seattle, Portland, Los Angeles, Yellowstone, Alaska</dd>
-            <dt>China</dt><dd>Shanghai, Beijing, Xi&rsquo;an, Chengdu, Chongqing, Guangzhou, Shanxi</dd>
-            <dt>Japan, South Korea, Taiwan</dt><dd>Tokyo, Seoul, Taipei</dd>
-            <dt>Hong Kong, Macau</dt>
-          </dl>
         </div>
         <div class="pop" id="pop-gaming" role="dialog" aria-label="Gaming" hidden>
           <p class="pop__k">Gaming</p>
@@ -260,6 +250,7 @@
   <script src="experience.js"></script>
   <script src="board.js"></script>
   <script src="contact.js"></script>
+  <script src="travel.js"></script>
   <script src="app.js"></script>
   <script src="script.js"></script>
 </body>

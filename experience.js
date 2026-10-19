@@ -20,7 +20,7 @@ const ENTRIES = [
     when: '2027',
     date: 'Expected May 2027',
     logo: 'images/logos/ubc.png',
-    image: '', // TODO: cover photo, e.g. 'images/experience/<slug>.webp'
+    image: 'images/experience/ubc-engineering.webp',
     site: ['Website', 'https://engineering.ok.ubc.ca/'],
     short: 'Graduating May 2027.',
     bullets: [
@@ -37,7 +37,7 @@ const ENTRIES = [
     when: '2020–21',
     date: 'Jul 2020 — Aug 2021',
     logo: 'images/logos/georgetown.png',
-    image: '', // TODO: cover photo, e.g. 'images/experience/<slug>.webp'
+    image: 'images/experience/georgetown-business-academy.webp',
     site: ['Website', 'https://summer.georgetown.edu/programs/SHS03/business-academy/'],
     short: 'College-level business courses and a startup pitch.',
     bullets: [
@@ -54,7 +54,7 @@ const ENTRIES = [
     when: '2016–22',
     date: 'Sep 2016 — Jun 2022',
     logo: 'images/logos/sjs.svg',
-    image: '', // TODO: cover photo, e.g. 'images/experience/<slug>.webp'
+    image: 'images/experience/st-johns-school.webp',
     site: ['Website', 'https://sjs.ca/'],
     short: 'Student Council Prefect.',
   },
@@ -67,7 +67,7 @@ const ENTRIES = [
     when: '2025',
     date: 'Apr 2025 — Jun 2025',
     logo: 'images/logos/ubc.png',
-    image: '', // TODO: cover photo, e.g. 'images/experience/<slug>.webp'
+    image: 'images/experience/ubc-mems-lab.webp',
     site: ['Website', 'https://mech.ubc.ca/mu-chiao/'],
     tags: ['Python', 'C++', 'MEMS', 'Microscopy'],
     short: 'Cardiac tissue research on a MEMS cell stretcher.',
@@ -94,7 +94,7 @@ const ENTRIES = [
     when: '2024',
     date: 'Jul 2024 — Aug 2024',
     logo: 'images/logos/hyc.svg',
-    image: '', // TODO: cover photo, e.g. 'images/experience/<slug>.webp'
+    image: 'images/experience/hyc-technology.webp', fit: 'contain', bg: '#acccf3',
     site: ['Website', 'https://www.hyc.com/'],
     tags: ['Manufacturing', 'Quartus'],
     short: 'Rotational training across 7 departments, plus production-line assembly.',
@@ -114,7 +114,7 @@ const ENTRIES = [
     when: '2023',
     date: 'Jul 2023 — Aug 2023',
     logo: 'images/logos/yili.png',
-    image: '', // TODO: cover photo, e.g. 'images/experience/<slug>.webp'
+    image: 'images/experience/suzhou-yi-li-energy.webp',
     site: ['Company profile', 'https://baike.baidu.com/item/%E8%8B%8F%E5%B7%9E%E5%BC%88%E5%8A%9B%E8%83%BD%E6%BA%90%E7%A7%91%E6%8A%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/51526175'],
     tags: ['PCB Repair', 'Soldering', 'Oscilloscope', 'Motors'],
     short: 'Diagnosed motors and repaired PCBs from the production line.',
@@ -137,7 +137,7 @@ const ENTRIES = [
     when: '2020–22',
     date: 'Sep 2020 — Jun 2022',
     logo: 'images/logos/sjs.svg',
-    image: '', // TODO: cover photo, e.g. 'images/experience/<slug>.webp'
+    image: 'images/experience/st-johns-school.webp', // TODO: own photo; the school's for now
     site: ['Website', 'https://sjs.ca/'],
     short: 'Ran orientation, International Day and Halloween Week.',
     bullets: [
@@ -155,7 +155,7 @@ const ENTRIES = [
     when: '2020–22',
     date: 'Sep 2020 — Jun 2022',
     logo: 'images/logos/sjs.svg',
-    image: '', // TODO: cover photo, e.g. 'images/experience/<slug>.webp'
+    image: 'images/experience/st-johns-school.webp', // TODO: own photo; the school's for now
     site: ['Website', 'https://sjs.ca/'],
     short: '#1 in BC in the Junior Achievement Stock Market Competition.',
     bullets: [
@@ -174,7 +174,7 @@ const ENTRIES = [
     when: '2020–21',
     date: 'Sep 2020 — Jun 2021',
     logo: 'images/logos/sjs.svg',
-    image: '', // TODO: cover photo, e.g. 'images/experience/<slug>.webp'
+    image: 'images/experience/st-johns-school.webp', // TODO: own photo; the school's for now
     site: ['Website', 'https://sjs.ca/'],
     short: 'A Stop Anti-Asian Hate initiative that raised $1,123.',
     bullets: [
@@ -193,7 +193,7 @@ const ENTRIES = [
     when: '2011–22',
     date: 'Sep 2011 — Jun 2022',
     logo: 'images/logos/scouts.png',
-    image: '', // TODO: cover photo, e.g. 'images/experience/<slug>.webp'
+    image: 'images/experience/scouts-canada.webp',
     site: ['Website', 'https://www.scouts.ca/'],
     short: 'Eleven years of camps, events and community service.',
     bullets: [

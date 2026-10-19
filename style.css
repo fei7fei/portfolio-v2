@@ -590,6 +590,46 @@ body.is-work .mark.reveal { transform: rotate(180deg); }
 .card.is-away { pointer-events: none; }
 .card.is-away .cover { opacity: 0; }
 
+/* The curl (see STRIPS in app.js): only drawn while a card is mid-roll.
+   --bend is the arc the face wraps through, in radians. Each strip sits on
+   that arc, turned to face out from it, so the sides lift toward the viewer. */
+.bend {
+  position: absolute;
+  inset: 0;
+  perspective: calc(var(--cw, 320px) * 1.8);
+  pointer-events: none;
+  visibility: hidden;
+}
+.card.is-bent .bend { visibility: visible; }
+.card.is-bent > .cover { visibility: hidden; }
+.bend__s {
+  --a: calc(var(--s) * var(--bend, 0) * 1rad);
+  --r: calc(var(--cw, 320px) / max(var(--bend, 0), .001));
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(50% - var(--cw, 320px) / 20);
+  width: calc(var(--cw, 320px) / 10 + 1px); /* 1px overlap hides the seams */
+  overflow: hidden;
+  transform: translateX(calc(var(--r) * sin(var(--a))))
+    translateZ(calc(var(--r) * (1 - cos(var(--a))))) rotateY(calc(-1 * var(--a)));
+}
+.bend__s .cover {
+  right: auto;
+  left: calc((-.5 - var(--s) + .05) * var(--cw, 320px));
+  width: var(--cw, 320px);
+  box-shadow: none;
+}
+/* The lifted sides catch less light */
+.bend__s::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: calc(max(var(--s), -1 * var(--s)) * var(--bend, 0) * .35);
+}
+.card.is-away .bend__s::after { opacity: 0; }
+
 /* Card face: the cover image, or a placeholder in the project's wire colour */
 .cover {
   position: relative;
@@ -960,6 +1000,248 @@ body.is-work .mark.reveal { transform: rotate(180deg); }
   .contact[open] .contact__card,
   .contact[open] .contact__credits,
   .contact[open]::backdrop { animation: none; }
+}
+
+/* ---------- Travel globe popup (same card-over-the-page as Contact) ---------- */
+
+.travel {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 56px 16px;
+  border: 0;
+  background: none;
+  color: #f2f2f2;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.travel[open] { display: flex; }
+.travel::backdrop {
+  background: rgba(237, 237, 237, .6);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+.travel__stack { display: flex; align-items: flex-end; margin: auto; }
+.travel__card {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  width: min(620px, 100%);
+  outline: none;
+  padding: 36px 36px 26px;
+  background: #151515;
+  box-shadow: 0 40px 80px -32px rgba(0, 0, 0, .6);
+  transform: rotate(-1.5deg);
+}
+.travel[open] .travel__card { animation: contact-in .55s cubic-bezier(.16, 1, .3, 1); }
+.travel[open] .travel__log { animation: credits-in .65s .08s cubic-bezier(.16, 1, .3, 1) both; }
+.travel[open]::backdrop { animation: contact-fade .3s ease; }
+.travel.is-closing .travel__card { animation: contact-out .22s cubic-bezier(.7, 0, .84, 0) forwards; }
+.travel.is-closing .travel__log { animation: credits-out .22s cubic-bezier(.7, 0, .84, 0) forwards; }
+.travel.is-closing::backdrop { animation: contact-fade .22s ease reverse forwards; }
+
+.travel__k {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.travel__title {
+  margin-top: 14px;
+  font-size: clamp(40px, 4.6vw, 62px);
+  font-weight: 500;
+  font-stretch: 75%;
+  line-height: .84;
+  letter-spacing: -.02em;
+  text-transform: uppercase;
+}
+.travel__title .dot { width: 10px; height: 10px; margin: 0 0 6px 8px; vertical-align: baseline; }
+
+.travel__stats { display: flex; gap: 32px; margin-top: 24px; }
+.travel__stats div { display: flex; flex-direction: column-reverse; }
+.travel__stats dt { margin-top: 2px; font-size: 12px; font-weight: 500; color: var(--muted); }
+.travel__stats dd { font-family: var(--dotfont); font-size: 40px; font-weight: 700; line-height: 1; }
+.travel__stats div:first-child dd { color: var(--red); }
+
+/* The globe: a square stage under the stats; the zoom and place card sit on top */
+.travel__globe {
+  position: relative;
+  margin: 10px -12px 0;
+  aspect-ratio: 1;
+  max-height: 60vh;
+  max-height: 60svh;
+}
+.globe {
+  position: absolute;
+  inset: 0;
+  cursor: grab;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  touch-action: pan-y;
+  /* Soft edges, so a zoomed-in globe fades out instead of hitting a hard square */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent), linear-gradient(180deg, transparent, #000 6%, #000 94%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent), linear-gradient(180deg, transparent, #000 6%, #000 94%, transparent);
+  mask-composite: intersect;
+}
+.globe:active { cursor: grabbing; }
+.globe.is-ready { opacity: 1; }
+.globe.is-failed { display: none; }
+
+.travel__note {
+  position: absolute;
+  left: 12px;
+  bottom: 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+/* Place labels drawn on the globe */
+.globe-label { position: relative; width: 0; height: 0; pointer-events: none; transition: opacity .3s ease; }
+.globe-label span {
+  position: absolute;
+  top: 0;
+  left: 9px;
+  transform: translateY(-50%);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #f2f2f2;
+  text-shadow: 0 0 4px #151515, 0 0 2px #151515;
+}
+.globe-label--home span { color: #ff5a60; font-weight: 700; }
+.globe-label--left span { left: auto; right: 9px; }
+.globe-label.is-back,
+.globe-label.is-crowded { opacity: 0; }
+
+/* Hover tooltip globe.gl shows for each pin */
+.globe .float-tooltip-kap {
+  padding: 3px 7px;
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #111;
+  background: #f2f2f2;
+}
+
+.globe-zoom { position: absolute; right: 12px; bottom: 8px; display: grid; gap: 6px; }
+.globe-zoom button {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 99px;
+  font-size: 17px;
+  line-height: 1;
+  transition: border-color .2s ease, background-color .2s ease, color .2s ease, transform .16s ease;
+}
+@media (hover: hover) { .globe-zoom button:hover { border-color: var(--red); background: var(--red); color: #fff; } }
+.globe-zoom button:active { transform: scale(.94); }
+
+/* Card that opens when a pin or a place name is clicked: a white tag, like the doodle pops */
+.place-card {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 200px;
+  padding: 12px 14px;
+  background: #fff;
+  color: var(--ink);
+  border: 1.5px solid var(--ink);
+  border-radius: 10px;
+  box-shadow: 4px 4px 0 var(--red);
+  font-size: 13px;
+  line-height: 1.4;
+  opacity: 0;
+  transform: translateY(6px) rotate(-2deg);
+  transition: opacity .2s ease, transform .3s cubic-bezier(.3, 1.4, .5, 1);
+}
+.place-card.is-open { opacity: 1; transform: rotate(-2deg); }
+.place-card[hidden] { display: none; }
+.place-card img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; margin-bottom: 8px; border-radius: 4px; }
+.place-card__name { padding-right: 18px; font-size: 18px; font-weight: 600; font-stretch: 85%; line-height: 1.1; text-transform: uppercase; }
+.place-card__meta { margin-top: 3px; font-family: var(--mono); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+.place-card__note { margin-top: 6px; font-size: 12px; }
+.place-card__close { position: absolute; top: 6px; right: 10px; font-size: 18px; line-height: 1; }
+@media (hover: hover) { .place-card__close:hover { color: var(--red); } }
+
+.travel__close {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 14px 0 0 auto;
+  font-size: 13px;
+  font-weight: 600;
+  transition: color .2s ease;
+}
+.travel__close span { font-size: 20px; font-weight: 400; line-height: 1; }
+@media (hover: hover) { .travel__close:hover { color: var(--red); } }
+
+/* Log: every place, on a light dotted card tucked beside the globe */
+.travel__log {
+  position: relative;
+  flex: 0 0 290px;
+  max-height: min(640px, 82vh);
+  overflow-y: auto;
+  margin: 0 0 56px -36px;
+  padding: 28px 24px 24px 60px;
+  background:
+    radial-gradient(rgba(0, 0, 0, .11) 1px, transparent 1.3px) 0 0 / 9px 9px,
+    #fafafa;
+  color: var(--ink);
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .45);
+  transform: rotate(2.5deg);
+}
+.travel__log-title { font-family: var(--dotfont); font-size: 34px; font-weight: 700; line-height: 1; text-transform: uppercase; }
+.travel__legend { display: grid; gap: 4px; margin-top: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--ink); font-family: var(--mono); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+.travel ul { list-style: none; }
+.place-list > li { margin-top: 14px; }
+.place-list__country { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.place-list ul { display: flex; flex-wrap: wrap; gap: 2px 14px; margin-top: 4px; }
+.place { display: flex; align-items: center; gap: 6px; }
+.place::before { content: ""; flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--ink); }
+.place--home::before { background: var(--red); }
+.place button { font-size: 13px; font-weight: 600; line-height: 1.5; letter-spacing: -.01em; transition: color .2s ease; }
+.place button.is-on { color: var(--red); }
+@media (hover: hover) { .place button:hover { color: var(--red); } }
+
+.travel a:focus-visible,
+.travel button:focus-visible { outline: 1px dashed currentColor; outline-offset: 3px; }
+
+/* Not enough room side by side: the log slides under the card */
+@media (max-width: 980px) {
+  .travel__stack { flex-direction: column; align-items: flex-end; width: min(620px, 100%); }
+  .travel__log { flex: none; width: min(360px, 92%); max-height: none; margin: -16px 12px 0 0; padding: 40px 22px 22px; transform: rotate(1.5deg); }
+}
+@media (max-width: 560px) {
+  .travel { padding: 40px 12px; }
+  .travel__card { padding: 28px 20px 20px; transform: rotate(-1deg); }
+  .travel__k span { display: none; }
+  .travel__stats { gap: 20px; }
+  .travel__stats dd { font-size: 32px; }
+  .travel__globe { margin: 6px -8px 0; }
+  .place-card { width: 170px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .travel[open] .travel__card,
+  .travel[open] .travel__log,
+  .travel[open]::backdrop { animation: none; }
+  .place-card { transition: none; }
 }
 
 /* ---------- Small screens: stack, board turns portrait ---------- */
