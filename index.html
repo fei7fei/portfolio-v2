@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Michael Xie | Electrical Engineering</title>
+  <meta name="description" content="Portfolio of Michael Xie (Pei Lin Xie), an Electrical Engineering student at UBC building embedded, computer-vision and AI projects.">
+  <meta property="og:title" content="Michael Xie | Electrical Engineering">
+  <meta property="og:description" content="Portfolio, projects and contact info.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://raw.githubusercontent.com/fei7fei/portfolio/main/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Michael Xie, Electrical Engineering at UBC">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23111'/><text x='50' y='66' font-size='46' font-family='Arial' font-weight='700' text-anchor='middle' fill='%23d71921'>MX</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Doto:ROND,wght@0..100,100..900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>try { if (sessionStorage.getItem('mx-intro-seen')) document.documentElement.classList.add('skip-intro'); } catch (e) {}</script>
+</head>
+<body class="is-intro">
+
+  <!-- Intro layers: dark room, light flood, hanging bulb -->
+  <div class="room" aria-hidden="true"></div>
+  <div class="flood" aria-hidden="true"></div>
+
+  <div class="rig" aria-hidden="true">
+    <div class="rig__swing">
+      <div class="halo"></div>
+      <svg class="bulb" viewBox="0 -1300 300 1820" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <!-- Earth: green / yellow -->
+          <pattern id="earth" patternUnits="userSpaceOnUse" width="14" height="14" patternTransform="rotate(38)">
+            <rect width="14" height="14" fill="#1f9a3c"/>
+            <rect width="7" height="14" fill="#f2c814"/>
+          </pattern>
+          <linearGradient id="socket" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0" stop-color="#070707"/>
+            <stop offset=".35" stop-color="#2a2a2a"/>
+            <stop offset=".5" stop-color="#3a3a3a"/>
+            <stop offset=".72" stop-color="#161616"/>
+            <stop offset="1" stop-color="#040404"/>
+          </linearGradient>
+          <linearGradient id="metal" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0" stop-color="#5e5e5e"/>
+            <stop offset=".4" stop-color="#d6d6d6"/>
+            <stop offset=".52" stop-color="#f5f5f5"/>
+            <stop offset="1" stop-color="#7a7a7a"/>
+          </linearGradient>
+          <radialGradient id="glassOn" gradientUnits="userSpaceOnUse" cx="150" cy="335" r="190">
+            <stop offset="0" stop-color="#ffffff"/>
+            <stop offset=".22" stop-color="#fff7dc"/>
+            <stop offset=".6" stop-color="#ffe4a6" stop-opacity=".85"/>
+            <stop offset="1" stop-color="#ffcf7a" stop-opacity=".5"/>
+          </radialGradient>
+          <filter id="fglow" x="-50%" y="-200%" width="200%" height="500%">
+            <feGaussianBlur stdDeviation="3.5" result="b"/>
+            <feMerge>
+              <feMergeNode in="b"/>
+              <feMergeNode in="b"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+
+        <!-- Three cords: Line (brown), Earth (green/yellow), Neutral (blue) -->
+        <g class="ambient">
+          <g fill="none" stroke-width="7" stroke-linecap="round">
+            <path d="M118,-1300 C122,-700 136,-300 140,-40" stroke="#7a4527"/>
+            <path d="M150,-1300 L150,-40" stroke="url(#earth)"/>
+            <path d="M182,-1300 C178,-700 164,-300 160,-40" stroke="#1d5bc2"/>
+          </g>
+          <g fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="1.4" transform="translate(-1.8 0)">
+            <path d="M118,-1300 C122,-700 136,-300 140,-40"/>
+            <path d="M150,-1300 L150,-40"/>
+            <path d="M182,-1300 C178,-700 164,-300 160,-40"/>
+          </g>
+          <text x="174" y="-120" class="tag">L · E · N</text>
+          <!-- Cord grip -->
+          <rect x="133" y="-48" width="34" height="52" rx="6" fill="url(#socket)" stroke="#fff" stroke-opacity=".08"/>
+        </g>
+
+        <!-- Glass envelope -->
+        <path id="glass" class="glass-off" d="M120,175 C120,225 40,250 40,350 C40,435 92,500 150,500 C208,500 260,435 260,350 C260,250 180,225 180,175 Z"/>
+        <path class="glass-on" d="M120,175 C120,225 40,250 40,350 C40,435 92,500 150,500 C208,500 260,435 260,350 C260,250 180,225 180,175 Z"/>
+
+        <!-- Stem, supports, filament -->
+        <path d="M142,178 L145,270 Q150,278 155,270 L158,178 Z" fill="#fff" fill-opacity=".06" stroke="#fff" stroke-opacity=".14"/>
+        <path d="M140,182 L122,335 M160,182 L178,335" class="support"/>
+        <path class="filament-off" d="M122,335 q3.5,-12 7,0 t7,0 t7,0 t7,0 t7,0 t7,0 t7,0 t7,0"/>
+        <path class="filament-on" filter="url(#fglow)" d="M122,335 q3.5,-12 7,0 t7,0 t7,0 t7,0 t7,0 t7,0 t7,0 t7,0"/>
+
+        <!-- Reflection -->
+        <path d="M72,312 C72,272 92,248 116,236" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="5" stroke-linecap="round"/>
+
+        <!-- Screw base + socket -->
+        <g class="ambient">
+          <rect x="116" y="122" width="68" height="56" fill="url(#metal)"/>
+          <g stroke="#000" stroke-opacity=".38" stroke-width="2.5">
+            <path d="M116,130 L184,135 M116,139 L184,144 M116,148 L184,153 M116,157 L184,162 M116,166 L184,171"/>
+          </g>
+          <rect x="121" y="174" width="58" height="7" rx="2" fill="#2a2a2a"/>
+
+          <path d="M122,0 H178 Q192,0 192,14 V120 H108 V14 Q108,0 122,0 Z" fill="url(#socket)" stroke="#fff" stroke-opacity=".07"/>
+          <g stroke="#fff" stroke-opacity=".07"><path d="M110,74 H190 M110,82 H190 M110,90 H190"/></g>
+          <rect x="104" y="112" width="92" height="12" rx="3" fill="#0e0e0e" stroke="#fff" stroke-opacity=".06"/>
+          <circle cx="150" cy="34" r="4" fill="#d71921"/>
+          <text x="150" y="54" class="tag tag--center">MX—01</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Landing -->
+  <main class="hero">
+    <div class="hero__zoom">
+      <h1 class="hero__name"><span>Michael</span> <span>Xie</span></h1>
+      <div class="hero__meta">
+        <span><i class="dot"></i>Portfolio / V2</span>
+        <span>[ Selected work — 2026 ]</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- Site: tabs + descriptions on the left, project cards in the middle, the breadboard on the right -->
+  <div class="app" id="site" data-tab="projects">
+    <aside class="side">
+      <!-- Phones only: the menu folds away behind this -->
+      <button type="button" class="burger reveal" style="--i:0" aria-expanded="false" aria-controls="menu" aria-label="Menu"><span></span><span></span></button>
+      <a class="mark reveal" style="--i:0" href="#projects" aria-label="Michael Xie — home">
+        <span class="mark__name">Michael Xie<sup>&copy;</sup></span>
+        <span class="mark__meta">copyright 2026<br>Vancouver, Canada</span>
+      </a>
+
+      <div class="menu reveal" style="--i:1" id="menu">
+        <p class="lbl">Menu</p>
+        <nav class="tabs" aria-label="Sections">
+          <a href="#projects" data-tab="projects">Projects</a>
+          <!-- Section tabs, under their open tab: click between its decks; filled by app.js -->
+          <div class="secs" data-pane="projects" data-secs="projects" role="group" aria-label="Project sections"></div>
+          <a href="#experience" data-tab="experience">Experience</a>
+          <div class="secs" data-pane="experience" data-secs="experience" role="group" aria-label="Experience sections" hidden></div>
+          <a href="#bio" data-tab="bio">About Me</a>
+          <button type="button" data-contact>Contact</button>
+        </nav>
+      </div>
+
+      <div class="panes reveal" style="--i:2">
+        <!-- Projects: a short description while scrolling; the details live on each project page -->
+        <dl class="pane" data-pane="projects" aria-live="polite">
+          <div class="fact fact--a"><dt>Project</dt><dd><i class="swatch" data-f="swatch"></i><span data-f="title"></span></dd></div>
+          <div class="pane__b">
+            <div class="fact"><dt>About</dt><dd data-f="short"></dd></div>
+            <div class="fact"><dt><span class="sr">Link</span></dt><dd><a class="go" data-f="link" href="#">Open project &rarr;</a></dd></div>
+          </div>
+        </dl>
+
+        <!-- Experience: the entry in front while scrolling; the details live on each entry page -->
+        <dl class="pane" data-pane="experience" hidden aria-live="polite">
+          <div class="fact fact--a"><dt data-f="e-group">Company</dt><dd><i class="swatch" data-f="e-swatch"></i><span data-f="e-org"></span></dd></div>
+          <div class="pane__b">
+            <div class="fact"><dt>Role</dt><dd data-f="e-role"></dd></div>
+            <div class="fact"><dt>When</dt><dd data-f="e-when"></dd></div>
+            <div class="fact"><dt>About</dt><dd data-f="e-short"></dd></div>
+            <div class="fact"><dt><span class="sr">Link</span></dt><dd><a class="go" data-f="e-link" href="#">Open experience &rarr;</a></dd></div>
+            <div class="pane__group">More</div>
+            <div class="fact"><dt>Affiliation</dt><dd>Engineers and Geoscientists BC<small>2024 — Now · <a class="go" href="https://www.egbc.ca/" target="_blank" rel="noopener">Website &#8599;</a></small></dd></div>
+            <div class="fact"><dt>Available</dt><dd>Co-op terms of 4, 8 or 12 months</dd></div>
+            <div class="fact"><dt>Resume</dt><dd><a class="go" href="Michael-Xie-Resume.pdf" target="_blank" rel="noopener">Download (PDF) &#8599;</a></dd></div>
+          </div>
+        </dl>
+
+        <!-- Bio -->
+        <dl class="pane" data-pane="bio" hidden>
+          <div class="fact fact--a"><dt>Based</dt><dd>Vancouver<br>Canada</dd></div>
+          <div class="pane__b">
+            <div class="fact"><dt>Name</dt><dd>Michael Xie<small>Pei Lin Xie · he/him</small></dd></div>
+            <div class="fact"><dt>About</dt><dd class="prose">Michael Xie builds hardware and software that solve real problems. He is an Electrical Engineering student at the University of British Columbia, graduating in May 2027, and enjoys turning repetitive, frustrating problems into tools that just work.<br><br>He has interned at the UBC MEMS Lab, HYC Technology and Suzhou Yi Li Energy, on everything from cardiac-tissue test rigs to PCB diagnostics and repair. He also researches medical-imaging AI, studying how chest X-ray classifiers perform in practice, not just how they score on accuracy.</dd></div>
+            <div class="fact"><dt>Now</dt><dd>Comparing five more model architectures for the SPIE chest X-ray paper.<small>October 2026</small></dd></div>
+            <div class="pane__group">Skills</div>
+            <div class="fact"><dt>Hardware</dt><dd>Circuit design, SMT &amp; THT soldering<br>Oscilloscopes, multimeters, signal generators<br>Arduino, ARM, Quartus, Cadence Virtuoso</dd></div>
+            <div class="fact"><dt>Languages</dt><dd>Python, C++, SystemVerilog / Verilog<br>MATLAB, R, HTML / CSS</dd></div>
+            <div class="fact"><dt>AI &amp; vision</dt><dd>YOLOv8, PyTorch, Keras, OpenCV<br>Raspberry Pi, Streamlit</dd></div>
+            <div class="fact"><dt>Tools</dt><dd>Git / GitHub, SolidWorks, ModelSim<br>AutoCAD (learning), LaTeX, VS Code<br>Claude Code</dd></div>
+            <div class="pane__group">Off hours</div>
+            <div class="fact"><dt>Music</dt><dd>Piano, since age 6</dd></div>
+            <div class="fact"><dt>Builds</dt><dd>PC building, custom keyboards</dd></div>
+            <div class="fact"><dt>Investing</dt><dd>Independent stock trading</dd></div>
+            <div class="fact"><dt>Lived</dt><dd>Vancouver, Kelowna<br>Suzhou, Washington DC</dd></div>
+          </div>
+        </dl>
+      </div>
+
+      <div class="count reveal" style="--i:3">
+        <p class="lbl" data-count-lbl>Engineering</p>
+        <b class="count__big" data-count-big>01</b>
+        <span class="count__of" data-count-of>/08</span>
+      </div>
+      <p class="lbl side__scroll reveal" style="--i:4" data-scroll-hint>Scroll</p>
+    </aside>
+
+    <main class="stage">
+      <div class="stage__top">
+        <p class="reveal" style="--i:2"><span class="lbl">Local time</span> <b data-clock>--:--</b><br><span class="lbl">Vancouver, Canada</span></p>
+        <p class="reveal" style="--i:3"><span class="lbl">For inquiries</span> <a class="go email-link" data-user="michaelxie04" data-domain="gmail.com" href="#bio">michaelxie04 [at] gmail.com</a></p>
+      </div>
+
+      <div class="board-box">
+        <svg class="board" data-board role="group" aria-label="Breadboard — a slide switch powers one section chip, and an LCD shows the card in front"></svg>
+      </div>
+      <div class="stream" data-stream></div>
+      <figure class="portrait">
+        <img src="images/me.webp" alt="" width="640" height="640" loading="lazy" draggable="false">
+        <!-- Line doodles that float around the photo: sports, travel, gaming -->
+        <button type="button" class="doodle doodle--sports" aria-expanded="false" aria-controls="pop-sports" aria-label="Sports">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><g transform="rotate(-35 32 32)"><ellipse cx="32" cy="20" rx="13" ry="16"/><path class="doodle__fine" d="M26 5.8V34.2M32 4V36M38 5.8V34.2M20.7 12H43.3M19 20H45M20.7 28H43.3"/><path d="M29 35.5L32 42L35 35.5M32 42V50"/><rect x="29.5" y="50" width="5" height="11" rx="2"/></g><circle cx="51" cy="17" r="3"/><path d="M48.6 15.2L44 5M53.4 15.6L58 6M51 14V3.5M44 5Q51 1.5 58 6"/></svg>
+          <span class="doodle__cap" aria-hidden="true">Badminton, golf, hoops</span>
+        </button>
+        <button type="button" class="doodle doodle--travel" aria-expanded="false" aria-controls="pop-travel" aria-label="Travel">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="28" r="17"/><ellipse cx="32" cy="28" rx="7.5" ry="17"/><path d="M15 28H49M17.5 19Q32 23.5 46.5 19M17.5 37Q32 32.5 46.5 37"/><path d="M10 28A22 22 0 0 0 32 50V57M23 58H41"/></svg>
+          <span class="doodle__cap" aria-hidden="true">27 places · 8 countries</span>
+        </button>
+        <button type="button" class="doodle doodle--gaming" aria-expanded="false" aria-controls="pop-gaming" aria-label="Gaming">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="22" width="56" height="26" rx="5"/><path class="doodle__fine" d="M10 28h4v4h-4zM18 28h4v4h-4zM26 28h4v4h-4zM34 28h4v4h-4zM42 28h4v4h-4zM50 28h4v4h-4zM13 35h4v4h-4zM21 35h4v4h-4zM29 35h4v4h-4zM37 35h4v4h-4zM45 35h4v4h-4z"/><rect x="19" y="41.5" width="26" height="3.5" rx="1.5"/><path d="M32 22C32 14 42 16 44 6"/></svg>
+          <span class="doodle__cap" aria-hidden="true">Valorant · Immortal</span>
+        </button>
+        <div class="pop" id="pop-sports" role="dialog" aria-label="Sports" hidden>
+          <p class="pop__k">Sports</p>
+          <p>Golf, badminton, basketball<br>Volleyball, soccer</p>
+          <small>Bronze Medallion swimming</small>
+        </div>
+        <div class="pop" id="pop-travel" role="dialog" aria-label="Travel" hidden>
+          <p class="pop__k">Travel</p>
+          <p>Road trips, RV trips, vacations<small>27 places in 8 countries and regions</small></p>
+          <dl>
+            <dt>Canada</dt><dd>Victoria, Calgary, Banff, Toronto, Montreal, Quebec City</dd>
+            <dt>United States</dt><dd>Seattle, Portland, Los Angeles, Yellowstone, Alaska</dd>
+            <dt>China</dt><dd>Shanghai, Beijing, Xi&rsquo;an, Chengdu, Chongqing, Guangzhou, Shanxi</dd>
+            <dt>Japan, South Korea, Taiwan</dt><dd>Tokyo, Seoul, Taipei</dd>
+            <dt>Hong Kong, Macau</dt>
+          </dl>
+        </div>
+        <div class="pop" id="pop-gaming" role="dialog" aria-label="Gaming" hidden>
+          <p class="pop__k">Gaming</p>
+          <p>Valorant (Immortal)<br>CS2, Overwatch</p>
+          <small>Beat Saber (VR)</small>
+        </div>
+      </figure>
+
+      <div class="stage__bottom">
+        <p class="lbl reveal" style="--i:4" data-stage-hint>Scroll or drag through the work</p>
+        <button class="replay reveal" style="--i:5" type="button">Replay intro <span aria-hidden="true">&#9654;</span></button>
+      </div>
+    </main>
+  </div>
+
+  <script src="projects.js"></script>
+  <script src="experience.js"></script>
+  <script src="board.js"></script>
+  <script src="contact.js"></script>
+  <script src="app.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project — Michael Xie</title>
+  <meta name="description" content="A project by Michael Xie.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23111'/><text x='50' y='66' font-size='46' font-family='Arial' font-weight='700' text-anchor='middle' fill='%23d71921'>MX</text></svg>">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="is-ready is-work">
+
+  <div class="app" data-tab="project">
+    <aside class="side">
+      <a class="mark reveal" style="--i:0" href="index.html#projects" aria-label="Michael Xie — home">
+        <span class="mark__name">Michael Xie<sup>&copy;</sup></span>
+        <span class="mark__meta">copyright 2026<br>Vancouver, Canada</span>
+      </a>
+
+      <div class="menu reveal" style="--i:1">
+        <p class="lbl">Menu</p>
+        <nav class="tabs" aria-label="Sections">
+          <a href="index.html#projects" data-nav="projects">Projects</a>
+          <a href="index.html#experience" data-nav="experience">Experience</a>
+          <a href="index.html#bio">About Me</a>
+          <button type="button" data-contact>Contact</button>
+        </nav>
+      </div>
+
+      <div class="panes reveal" style="--i:2">
+        <!-- Filled by project-page.js from projects.js or experience.js -->
+        <dl class="pane" data-facts></dl>
+      </div>
+
+      <div class="count reveal" style="--i:3">
+        <p class="lbl" data-f="count-lbl">Net</p>
+        <b class="count__big" data-f="no">00</b>
+        <span class="count__of" data-f="of">/00</span>
+      </div>
+    </aside>
+
+    <main class="stage stage--article">
+      <article class="article" data-article></article>
+    </main>
+  </div>
+
+  <script src="projects.js"></script>
+  <script src="experience.js"></script>
+  <script src="project-page.js"></script>
+  <script src="contact.js"></script>
+</body>
+</html>
