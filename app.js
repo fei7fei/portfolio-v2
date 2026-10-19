@@ -314,7 +314,7 @@ addEventListener('keydown', (e) => {
 let drag = null;
 let dragged = false;
 stream.addEventListener('pointerdown', (e) => {
-  if (!canScrub() || e.button) return;
+  if (!canScrub() || e.button || e.pointerType === 'touch') return;
   drag = { x: e.clientX, y: e.clientY, t: deck.target };
   dragged = false;
 });
@@ -330,6 +330,39 @@ const endDrag = () => { if (drag) { drag = null; go(Math.round(deck.target)); } 
 addEventListener('pointerup', endDrag);
 addEventListener('pointercancel', endDrag);
 stream.addEventListener('dragstart', (e) => e.preventDefault());
+
+// Touch: the browser would take a vertical swipe as a page scroll (and cancel the
+// pointer), so the first move decides. Sideways, or up and down within the deck,
+// scrubs the stack; pushing past either end scrolls the page as usual.
+let swipe = null;
+stream.addEventListener('touchstart', (e) => {
+  if (!canScrub() || e.touches.length > 1) { swipe = null; return; }
+  const t = e.touches[0];
+  swipe = { x: t.clientX, y: t.clientY, t: deck.target, mode: null };
+  dragged = false;
+}, { passive: true });
+stream.addEventListener('touchmove', (e) => {
+  if (!swipe) return;
+  const t = e.touches[0];
+  const dx = t.clientX - swipe.x;
+  const dy = t.clientY - swipe.y;
+  if (!swipe.mode) {
+    if (Math.abs(dx) + Math.abs(dy) < 4) return;
+    const past = Math.abs(dy) > Math.abs(dx) && (dy > 0 ? deck.current >= deck.last : deck.current <= 0);
+    swipe.mode = past ? 'page' : 'deck';
+  }
+  if (swipe.mode === 'page') return;
+  if (e.cancelable) e.preventDefault();
+  if (Math.abs(dx) + Math.abs(dy) > 6) dragged = true;
+  deck.target = Math.max(0, Math.min(deck.last, swipe.t + (dy - dx) / (w * 1.2)));
+  kick();
+}, { passive: false });
+const endSwipe = () => {
+  if (swipe && swipe.mode === 'deck') go(Math.round(deck.target));
+  swipe = null;
+};
+stream.addEventListener('touchend', endSwipe);
+stream.addEventListener('touchcancel', endSwipe);
 
 // A card that isn't front and centre comes forward instead of opening.
 stream.addEventListener('click', (e) => {
